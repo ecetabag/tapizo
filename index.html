@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="How to play Alce Battle — a cozy card game of favorite restaurants & cafés." />
+  <title>Alce Battle — How to Play</title>
+  <style>
+    :root{
+      --bg0:#1a120b;            /* espresso */
+      --bg1:#2a1b10;            /* dark cacao */
+      --card:#24170f;           /* coffee bean */
+      --text:#fff4e6;           /* warm cream */
+      --muted:#e6d2bf;          /* latte foam */
+      --line:rgba(255,244,230,.14);
+      --accent:#c58a54;         /* caramel */
+      --accent2:#e0b07a;        /* honey */
+      --shadow: 0 18px 60px rgba(0,0,0,.38);
+      --radius: 18px;
+      --radius2: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(224,176,122,.22), transparent 60%),
+        radial-gradient(900px 600px at 90% 10%, rgba(197,138,84,.22), transparent 55%),
+        radial-gradient(800px 500px at 50% 100%, rgba(224,176,122,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+    a{color:inherit}
+    .wrap{max-width: 980px; margin:0 auto; padding: 28px 18px 64px;}
+    header{
+      display:flex; gap:16px; align-items:center; justify-content:space-between;
+      padding: 14px 0 24px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:44px; height:44px; border-radius:14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(224,176,122,.90), transparent 55%),
+        radial-gradient(circle at 70% 60%, rgba(197,138,84,.90), transparent 58%),
+        rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .brand h1{font-size: 18px; margin:0; letter-spacing:.2px}
+    .brand p{margin:2px 0 0; color:var(--muted); font-size: 13px}
+    nav{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      text-decoration:none;
+      background: rgba(255,255,255,.04);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .chip:hover{transform: translateY(-1px); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.22); color: var(--text);}
+    .hero{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      padding: 26px 22px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-60px -40px auto auto;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle at 30% 30%, rgba(224,176,122,.28), transparent 60%),
+                  radial-gradient(circle at 60% 70%, rgba(197,138,84,.26), transparent 62%);
+      filter: blur(2px);
+      transform: rotate(18deg);
+      pointer-events:none;
+    }
+    .hero h2{margin:0 0 10px; font-size: 34px; letter-spacing:.2px}
+    .hero p{margin:0 0 18px; color: var(--muted); font-size: 16px; line-height:1.5; max-width: 70ch;}
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+    button{
+      font: inherit;
+      border-radius: 12px;
+      border:1px solid var(--line);
+      padding: 10px 12px;
+      cursor:pointer;
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    button:hover{transform: translateY(-1px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.24);}
+    button.primary{
+      background: linear-gradient(90deg, rgba(197,138,84,.36), rgba(224,176,122,.26));
+      border-color: rgba(255,255,255,.22);
+    }
+    main{padding-top: 18px; display:grid; gap: 14px;}
+    section.card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.035);
+      box-shadow: 0 14px 40px rgba(0,0,0,.26);
+      padding: 18px 18px;
+    }
+    .kicker{
+      display:flex; align-items:center; gap:10px; margin-bottom: 10px;
+    }
+    .icon{
+      width: 34px; height: 34px; border-radius: 12px;
+      border:1px solid var(--line);
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.05);
+      user-select:none;
+    }
+    h3{margin:0; font-size: 18px}
+    .content{color: var(--muted); line-height:1.6}
+    ol{margin: 10px 0 0 20px}
+    ul{margin: 10px 0 0 18px}
+    li{margin: 8px 0}
+    details{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      padding: 10px 12px;
+      background: rgba(255,255,255,.03);
+      margin-top: 10px;
+    }
+    summary{
+      cursor:pointer;
+      user-select:none;
+      color: var(--text);
+      font-weight: 600;
+      display:flex; align-items:center; gap:10px;
+      list-style:none;
+    }
+    summary::-webkit-details-marker{display:none}
+    summary:after{
+      content:"▾";
+      margin-left:auto;
+      color: var(--muted);
+      transition: transform .12s ease;
+    }
+    details[open] summary:after{transform: rotate(180deg)}
+    footer{
+      margin-top: 18px;
+      color: rgba(255,255,255,.65);
+      font-size: 12px;
+      display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+      padding-top: 10px;
+    }
+    code{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #fff4e6;
+    }
+    .heroImage{
+      margin-top: 14px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      overflow:hidden;
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 14px 40px rgba(0,0,0,.22);
+    }
+    .heroImage img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    @media (max-width: 720px){
+      .hero h2{font-size: 28px}
+      header{flex-direction:column; align-items:flex-start}
+      nav{justify-content:flex-start}
+    }
+    @media print{
+      body{background:#fff; color:#000}
+      .hero, section.card{box-shadow:none}
+      .chip, .actions{display:none !important}
+      section.card{border-color:#ddd; background:#fff}
+      .content{color:#111}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand" aria-label="Site header">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Alce Battle</h1>
+          <p>A cozy card game of favorite restaurants & cafés</p>
+        </div>
+      </div>
+      <nav aria-label="Page navigation">
+        <a class="chip" href="#how-to-play">☕ How to Play</a>
+        <a class="chip" href="#cards">🃏 Card Types</a>
+        <a class="chip" href="#tips">✨ Tips</a>
+      </nav>
+    </header>
+
+    <section class="hero" role="banner">
+      <h2>How to Play</h2>
+      <p>
+        Welcome to <strong>Alce Battle</strong> — a collection of Albert and Ece’s favourite restaurants and cafes.
+        Shall we see how it is played? (I hear you saying “we shall”.)
+      </p>
+      <div class="actions">
+        <button class="primary" id="copyBtn" type="button">Copy rules</button>
+        <button id="printBtn" type="button">Print</button>
+        <button id="expandBtn" type="button">Expand all</button>
+      </div>
+
+      <figure class="heroImage" aria-label="Image from the rules document">
+        <img src="assets/doc_image.png" alt="Image from the Alce Battle rules document" />
+      </figure>
+    </section>
+
+    <main>
+      <section class="card" id="how-to-play">
+        <div class="kicker">
+          <div class="icon" aria-hidden="true">☕</div>
+          <h3>How To Play</h3>
+        </div>
+        <div class="content">
+          <ol>
+            <li>
+              You start by dividing all cards equally. You can use any number of cards from 20, to all cards.
+              Lets say you are using 30 cards. You give 15 to each player.
+            </li>
+            <li>
+              Whoever had more coffee today starts the game. They can either put a situation card in the middle,
+              or pick a location card and a trait, and say the number. Be careful, pick the highest number you have.
+              Then, the other person will find the place that has a higher score of that trait. If they have, they will take
+              that card to themselves. Whoever has the higher number keeps both cards. After the exchange completes, the person
+              whose turn it is can play a situation or place card. If one doesn’t have a higher location card, they can use the
+              food coma card to skip the turn.
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="card" id="cards">
+        <div class="kicker">
+          <div class="icon" aria-hidden="true">🃏</div>
+          <h3>Alce Battle consists of</h3>
+        </div>
+        <div class="content">
+          <details class="acc">
+            <summary>1) Location Cards</summary>
+            <p>
+              These cards have traits of the places like <em>flavor</em>, <em>romance</em>, <em>speed</em>.
+              Before playing, your role is to discuss the values of each trait of each place with your significant other,
+              and mark it on the cards with a Sharpie. It might be a battle, but the field rules have to be decided in fair terms.
+            </p>
+          </details>
+
+          <details class="acc">
+            <summary>2) Situation Cards</summary>
+            <p>
+              These cards are powerful, and when played it it effective until another situation card gets thrown on it.
+              These cards have the power to multiply, lower, or sum up points, depending on colors placed next to the traits
+              on <em>cartes de lugares</em>. There are different type of situation cards:
+            </p>
+            <ul>
+              <li>
+                <strong>Main Character Cards:</strong> Works as if a restaurant is being critiqued by the main character.
+                If Ece loves Palm Acai, it might increase the points in Palm Acai. If Albert doesn’t like the speed of Jupiter,
+                when Albert card is played in the middle, then the Jupiter card’s speed point might decrease.
+              </li>
+              <li>
+                <strong>Location Cards:</strong> Can increase or decrease points depending on if its good to order home or not.
+                If it takes so long to be delivered, then the speed might decrease. If it is a picnic, romance point might double.
+              </li>
+              <li>
+                <strong>Weather Cards:</strong> Manipulate points depending on if its sunny or rainy. “Poke on a rainy day? Hell nah!”
+              </li>
+              <li>
+                <strong>Time of the Day Cards:</strong> “How does Ippuku sound after a night out? What about Taco Sinoala. You get the point.”
+              </li>
+              <li>
+                <strong>Food Coma Cards:</strong> Rare. This lets you skip a round. You cannot eat more if you are already in a food coma.
+                You can use this if all of the scores you have are lower than what trait your opponent indicated. Use it well.
+              </li>
+            </ul>
+          </details>
+
+          <details class="acc">
+            <summary>3) Blank Cards</summary>
+            <p>
+              These cards are left for you two, the cutest couple ever, to fill up as time passes or as your imagination grows.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section class="card" id="tips">
+        <div class="kicker">
+          <div class="icon" aria-hidden="true">✨</div>
+          <h3>Quick setup tips</h3>
+        </div>
+        <div class="content">
+          <ul>
+            <li><strong>Before the first match:</strong> sit together and agree on trait values for each location card (then mark them).</li>
+            <li><strong>Keep it fair:</strong> decide your “field rules” up front so the battles feel fun, not chaotic.</li>
+            <li><strong>Make it yours:</strong> use blank cards to add new places, inside jokes, and future memories.</li>
+          </ul>
+          <p style="margin-top:12px;">Good luck! 🍀</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>Built from the provided rules document.</div>
+      <div>Tip: open <code>index.html</code> to edit text, swap the image in <code>assets/</code>, or change colors.</div>
+    </footer>
+  </div>
+
+  <script>
+    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+    const rulesText = () => {
+      const parts = [];
+      parts.push("Alce Battle — How to Play\\n");
+      $$("#how-to-play li").forEach((li, i) => parts.push(`${i+1}. ${li.innerText.trim()}\\n`));
+      parts.push("\\nAlce Battle consists of:\\n");
+      $$("#cards details").forEach((d) => {
+        const title = d.querySelector("summary")?.innerText?.trim() || "Section";
+        const body = d.querySelectorAll("p, li");
+        parts.push(`\\n${title}\\n`);
+        body.forEach(n => parts.push(`- ${n.innerText.trim()}\\n`));
+      });
+      return parts.join("");
+    };
+
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(rulesText());
+        const btn = document.getElementById("copyBtn");
+        const old = btn.innerText;
+        btn.innerText = "Copied ✓";
+        setTimeout(()=>btn.innerText=old, 1200);
+      }catch(e){
+        alert("Copy failed in this browser. You can still select text and copy manually.");
+      }
+    });
+
+    document.getElementById("printBtn").addEventListener("click", () => window.print());
+
+    document.getElementById("expandBtn").addEventListener("click", () => {
+      const acc = $$("#cards details");
+      const allOpen = acc.every(d => d.open);
+      acc.forEach(d => d.open = !allOpen);
+      document.getElementById("expandBtn").innerText = allOpen ? "Expand all" : "Collapse all";
+    });
+  </script>
+</body>
+</html>
